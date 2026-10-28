@@ -131,6 +131,32 @@
             sendMessage();
         }
     });
+
+
+    async function loadMessages() {
+        try {
+            const response = await fetch("/api/messages");
+
+            if (!response.ok) {
+                throw new Error("Failed to load messages");
+            }
+
+            const history = await response.json();
+
+            history.forEach(function(item) {
+                const message = document.createElement("p");
+                message.textContent = item.content;
+                messages.appendChild(message);
+            });
+
+            messages.scrollTop = messages.scrollHeight;
+        } catch (error) {
+            console.error("Error loading messages:", error);
+        }
+    }
+
+    loadMessages();
+
 </script>
 
 </body>
